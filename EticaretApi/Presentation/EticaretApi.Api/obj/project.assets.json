@@ -1357,7 +1357,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "EticaretApi.Domain": "1.0.0"
+          "EticaretApi.Domain": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "7.0.5"
         },
         "compile": {
           "bin/placeholder/EticaretApi.Application.dll": {}
