@@ -17,7 +17,7 @@ namespace EticaretApi.Persistence.Repositories
         private readonly EticaretApiDbContext _context; //IoC den gelicek 
         public ReadRepository(EticaretApiDbContext context)
         {
-            context = _context;
+            _context = context;
         }
         //burası IRepository den geldi
         public DbSet<T> Table => _context.Set<T>();

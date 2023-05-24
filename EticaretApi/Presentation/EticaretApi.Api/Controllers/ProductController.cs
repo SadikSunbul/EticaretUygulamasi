@@ -1,8 +1,10 @@
 ﻿
 using EticaretApi.Application.Repositories;
+using EticaretApi.Application.ViewModels.Products;
 using EticaretApi.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace EticaretApi.Api.Controllers
 {
@@ -19,7 +21,9 @@ namespace EticaretApi.Api.Controllers
             _productReadRepository = productReadRepository;
         }
 
-        [HttpGet] //bunu drekt bıldırmek gerek degılse swıger patlar
+        #region Örnek
+        /*
+         [HttpGet] //bunu drekt bıldırmek gerek degılse swıger patlar
         public async Task Get()
         {
             //await _productWriteRepository.AddRangeAsync(new (){
@@ -38,13 +42,70 @@ namespace EticaretApi.Api.Controllers
         public async Task<IActionResult> Get(string id)
         {
             Product product = await _productReadRepository.GetByIdAsync(id);
+            _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10 });/*,CreateDate=DateTime.Now burayı herzaman yazamayız bunu merkezılestırmek lazım *//*
             return Ok(product);
-        }
+    }
+
+        //[HttpGet]
+        //public async Task Test()
+        //{
+        //    _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10 });/*,CreateDate=DateTime.Now burayı herzaman yazamayız bunu merkezılestırmek lazım */
+        //}
+
+        #endregion
+        #region Servise Api sağlama
 
         [HttpGet]
-        public async Task Test()
+        public async Task<IActionResult> Get()
         {
-            _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10 /*,CreateDate=DateTime.Now burayı herzaman yazamayız bunu merkezılestırmek lazım */}); 
+            var data = _productReadRepository.GetAll(false).ToList();
+            return Ok(data);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            var data=_productReadRepository.GetByIdAsync(id, false);
+            data.Wait();
+            var data1 = data.Result;
+            return Ok(data1);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(VM_Create_Product model) //normalde boyle entıtıy ıle karsılanmaz veri
+        {
+
+           await _productWriteRepository.AddAsync(model); //ekledik 
+            await _productWriteRepository.SaveAsync(); //Kaydettik
+            return StatusCode((int)HttpStatusCode.Created);//ekleme yapıldı kodu doncek 201 doner
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Put(VM_Update_Product model) //guncelleme ıslemı yapılcak 
+        {
+            Product product=await _productReadRepository.GetByIdAsync(model.Id); // Id verıp tum nesneyı elde ettık 
+            product.Stock = model.Stock;
+            product.Price = model.Price;
+            product.Name=model.Name;
+
+            await _productWriteRepository.SaveAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var data=await _productWriteRepository.RemoveAsync(id);
+            if (data)
+            {
+                await _productWriteRepository.SaveAsync();
+                return Ok(true);
+            }
+            
+            return Ok(false);
+        }
+
+        #endregion
     }
 }

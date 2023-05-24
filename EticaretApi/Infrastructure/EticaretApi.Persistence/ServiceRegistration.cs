@@ -15,7 +15,7 @@ namespace EticaretApi.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services)
         {
-            services.AddDbContext<EticaretApiDbContext>(options => options.UseSqlServer(Configration.ConnectionString)); //buradakı bı connectıon strıng ıfadesı hatalı aslında daha sora burayı degıstırcez
+            services.AddDbContext<EticaretApiDbContext>(options => options.UseSqlServer(Configration.ConnectionString)); 
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>(); //ICustomerReadRepository ıstenınce CustomerReadRepository döner
             services.AddScoped<ICustomerWriteRepository,CustomerWriteRepository>();
             services.AddScoped<IProductReadRepository,ProductReadRepository>();

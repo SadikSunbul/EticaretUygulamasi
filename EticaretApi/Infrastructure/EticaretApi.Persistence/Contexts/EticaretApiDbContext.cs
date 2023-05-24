@@ -32,8 +32,9 @@ namespace EticaretApi.Persistence.Contexts
                 var _ = data.State switch
                 {
                     EntityState.Added => data.Entity.CreateDate=DateTime.UtcNow,  //yapılan ıslem ekleme ıslemı ıse burası calıscak 
-                    EntityState.Modified => data.Entity.UpdateDate = DateTime.UtcNow //ypılan ıslem guncelleme ıse bursı calısır 
-                };
+                    EntityState.Modified => data.Entity.UpdateDate = DateTime.UtcNow, //ypılan ıslem guncelleme ıse bursı calısır 
+                    _ => default // Diğer durumlar için hiçbir şey yapma  {} bu calısmaz c# 9 dan dusuk duan bu program o yuzden default dedik
+                };;
                 
             }
 
