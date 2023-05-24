@@ -22,17 +22,48 @@ namespace EticaretApi.Persistence.Repositories
         //burası IRepository den geldi
         public DbSet<T> Table => _context.Set<T>();
 
-        public IQueryable<T> GetAll()
-            => Table; //tum tanloları getırıcek
+        public IQueryable<T> GetAll(bool tracking = true)
+        /*=> Table; //tum tanloları getırıcek*/
+        {
+            var query = Table.AsQueryable(); //sorgu seklinde dursun dedık 
+            if (!tracking)
+            {
+                query = query.AsNoTracking(); //trackıng devredısı oldu 
+            }
+            return query;
+        }
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> method, bool tracking = true)
+        //=> Table.Where(method);
+        {
+            var query = Table.Where(method);
+            if (!tracking)
+            {
+                query = query.AsNoTracking(); //trackıng devredısı oldu 
+            }
+            return query;
+        }
 
-        public IQueryable<T> GetWhere(Expression<Func<T, bool>> method)
-            => Table.Where(method);
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method, bool tracking = true)
+        //=> await Table.FirstOrDefaultAsync(method);
+        {
+            var query = Table.AsQueryable();
+            if (!tracking)
+            {
+                query = query.AsNoTracking(); //trackıng devredısı oldu 
+            }
+            return await query.FirstOrDefaultAsync(method);
+        }
 
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method)
-            => await Table.FirstOrDefaultAsync(method);
 
-
-        public async Task<T> GetByIdAsync(string id)
-            =>await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id)); //Id yı guid e pars ettık esıtse dondur dedık 
+        public async Task<T> GetByIdAsync(string id, bool tracking = true)
+        /*=>await Table.FindAsync(Guid.Parse(id));*/ //Id yı guid e pars ettık esıtse dondur dedık 
+        {
+            var query=Table.AsQueryable();
+            if (!tracking)
+            {
+                query = query.AsNoTracking(); //trackıng devredısı oldu 
+            }
+            return await query.FirstOrDefaultAsync(i => i.Id == Guid.Parse(id));
+        }
     }
 }

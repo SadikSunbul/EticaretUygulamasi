@@ -14,10 +14,10 @@ namespace EticaretApi.Application.Repositories
         //Read = select  bır verı tabanından sorgu netıcesınde verı elede edıceksen buna read ıslemı derız 
         //Tum verıler sartlı verıelr vb.
         //IQueryable olmalıdır bu sorgu demek list olmaz o ramde yapar ıslemelrı
-        IQueryable<T> GetAll();
-        IQueryable<T> GetWhere(Expression<Func<T,bool>>method); //burada ıcerısınde where sartı gıbı ıslem yaptırcaz sarta uygun olanalrı getırır
-        Task<T> GetSingleAsync(Expression<Func<T,bool>>method); //tek verı gelıcegı ıcın IQuareble demekdık
-        Task<T> GetByIdAsync(string id); //Id ye uygun olanı getırcek tek verı 
+        IQueryable<T> GetAll(bool tracking=true);
+        IQueryable<T> GetWhere(Expression<Func<T,bool>>method, bool tracking = true); //burada ıcerısınde where sartı gıbı ıslem yaptırcaz sarta uygun olanalrı getırır
+        Task<T> GetSingleAsync(Expression<Func<T,bool>>method, bool tracking = true); //tek verı gelıcegı ıcın IQuareble demekdık
+        Task<T> GetByIdAsync(string id, bool tracking = true); //Id ye uygun olanı getırcek tek verı 
 
 
     }

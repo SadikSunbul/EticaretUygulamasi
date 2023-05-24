@@ -15,13 +15,14 @@ namespace EticaretApi.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services)
         {
-            services.AddDbContext<EticaretApiDbContext>(options => options.UseSqlServer(Configration.ConnectionString),ServiceLifetime.Singleton); //buradakı bı connectıon strıng ıfadesı hatalı aslında daha sora burayı degıstırcez
-            services.AddSingleton<ICustomerReadRepository, CustomerReadRepository>(); //ICustomerReadRepository ıstenınce CustomerReadRepository döner
-            services.AddSingleton<ICustomerWriteRepository,CustomerWriteRepository>();
-            services.AddSingleton<IProductReadRepository,ProductReadRepository>();
-            services.AddSingleton<IProductWriteRepository,ProductWriteRepository>();
-            services.AddSingleton<IOrderWriteRepository, OrderWriteRepository>();
-            services.AddSingleton<IOrderReadRepository,OrderReadRepository>();
+            services.AddDbContext<EticaretApiDbContext>(options => options.UseSqlServer(Configration.ConnectionString)); //buradakı bı connectıon strıng ıfadesı hatalı aslında daha sora burayı degıstırcez
+            services.AddScoped<ICustomerReadRepository, CustomerReadRepository>(); //ICustomerReadRepository ıstenınce CustomerReadRepository döner
+            services.AddScoped<ICustomerWriteRepository,CustomerWriteRepository>();
+            services.AddScoped<IProductReadRepository,ProductReadRepository>();
+            services.AddScoped<IProductWriteRepository,ProductWriteRepository>();
+            services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
+            services.AddScoped<IOrderReadRepository,OrderReadRepository>();
+
         }
     }
 }
