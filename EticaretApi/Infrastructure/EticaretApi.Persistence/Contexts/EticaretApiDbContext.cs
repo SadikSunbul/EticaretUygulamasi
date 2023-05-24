@@ -1,4 +1,5 @@
 ﻿using EticaretApi.Domain.Entities;
+using EticaretApi.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,26 @@ namespace EticaretApi.Persistence.Contexts
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
+
+        //burası ne zamna tetıklenır bız nezaman savechangesAsync methodunu tetıklers ısek ozaman burası kayıttan once cecalısır ıslemler den sonrada en altta kaydeder
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)//soguda araya gırmemıze yarar //hangisini kullandıysak onu overıde etmelıyız
+        {
+            //ChangeTracker :Entityler uzerınden yapılan degısıklıklerı yada yenı eklenen verılerın yakalanmasını saglıyan propertydir .update operasyonşarında Track edılen verılerı yakalayıp elde etmemızı saglar.
+            var datas = ChangeTracker.Entries<BaseEntity>(); //base entıty uzerınde kılerı yakala degısıklık olanları 
+
+            foreach (var data in datas) //degısıklıklerı donduk burada 
+            {
+                var _ = data.State switch
+                {
+                    EntityState.Added => data.Entity.CreateDate=DateTime.UtcNow,  //yapılan ıslem ekleme ıslemı ıse burası calıscak 
+                    EntityState.Modified => data.Entity.UpdateDate = DateTime.UtcNow //ypılan ıslem guncelleme ıse bursı calısır 
+                };
+                
+            }
+
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
 
     }
 }

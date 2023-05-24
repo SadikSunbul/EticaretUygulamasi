@@ -40,5 +40,11 @@ namespace EticaretApi.Api.Controllers
             Product product = await _productReadRepository.GetByIdAsync(id);
             return Ok(product);
         }
+
+        [HttpGet]
+        public async Task Test()
+        {
+            _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10 /*,CreateDate=DateTime.Now burayı herzaman yazamayız bunu merkezılestırmek lazım */}); 
+        }
     }
 }
