@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "eNarEx8ZQaHkr+VAAMr0ABUEkWFs2nOwBo6Tk/SaImMA3QXhMIEuf7MJewlkmBYbd43Cd6kgyzPUK9j3o58JQw==",
+  "dgSpecHash": "dMGeQQn8b7zPwCnFDav3fR6i/HgwR5tKHTz5Qn33gJX2NnlCSaouytkEcwGuvr0+q1zHoqae7+9yhD0bHGqC4A==",
   "success": true,
   "projectFilePath": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Infrastructure\\EticaretApi.Persistence\\EticaretApi.Persistence.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\artredline\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\artredline\\.nuget\\packages\\fluentvalidation\\11.5.2\\fluentvalidation.11.5.2.nupkg.sha512",
+    "C:\\Users\\artredline\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
+    "C:\\Users\\artredline\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.2\\fluentvalidation.dependencyinjectionextensions.11.5.2.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

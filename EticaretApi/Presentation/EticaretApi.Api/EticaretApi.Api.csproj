@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\EticaretApi.Application\EticaretApi.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\EticaretApi.Infrastructure\EticaretApi.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\EticaretApi.Persistence\EticaretApi.Persistence.csproj" />
   </ItemGroup>
 

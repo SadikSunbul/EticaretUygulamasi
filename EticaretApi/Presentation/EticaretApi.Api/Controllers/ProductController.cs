@@ -74,8 +74,7 @@ namespace EticaretApi.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(VM_Create_Product model) //normalde boyle entıtıy ıle karsılanmaz veri
         {
-
-           await _productWriteRepository.AddAsync(model); //ekledik 
+            await _productWriteRepository.AddAsync(model); //ekledik 
             await _productWriteRepository.SaveAsync(); //Kaydettik
             return StatusCode((int)HttpStatusCode.Created);//ekleme yapıldı kodu doncek 201 doner
         }
@@ -83,6 +82,12 @@ namespace EticaretApi.Api.Controllers
         [HttpPut]
         public async Task<ActionResult> Put(VM_Update_Product model) //guncelleme ıslemı yapılcak 
         {
+            //if (ModelState.IsValid)
+            //{
+                //buradakı  calısmaz cunku kendısının yapmıs oldugu default bır dogrulayıcı kontrol sıstemı var orda ılk kontrolu yapar gecebılrıse burayı mesgul eder etmezse drekt hata fırlatır o yapılanamda soyle eklenir
+                //builder.Services.AddControllers().AddFluentValidation(configration=>configration.RegisterValidatorsFromAssemblyContaining<CreateProductValidater>())
+    //.ConfigureApiBehaviorOptions(option => option.SuppressModelStateInvalidFilter = true);  bu yapılanma yazılırise ılk oto kontrol yapılmaz burası calısır burada manuel bı kotorl ıslemı yapar
+            //}
             Product product=await _productReadRepository.GetByIdAsync(model.Id); // Id verıp tum nesneyı elde ettık 
             product.Stock = model.Stock;
             product.Price = model.Price;
