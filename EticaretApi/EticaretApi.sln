@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EticaretApi.Api", "Presentation\EticaretApi.Api\EticaretApi.Api.csproj", "{E535267B-A34A-4A70-A231-3F41123F29AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deneme", "Deneme\Deneme.csproj", "{6BFB7C4A-3514-461A-B6F3-1B8B03C0861E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{E535267B-A34A-4A70-A231-3F41123F29AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E535267B-A34A-4A70-A231-3F41123F29AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E535267B-A34A-4A70-A231-3F41123F29AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6BFB7C4A-3514-461A-B6F3-1B8B03C0861E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6BFB7C4A-3514-461A-B6F3-1B8B03C0861E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6BFB7C4A-3514-461A-B6F3-1B8B03C0861E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6BFB7C4A-3514-461A-B6F3-1B8B03C0861E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
