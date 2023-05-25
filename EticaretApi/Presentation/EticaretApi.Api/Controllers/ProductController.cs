@@ -1,5 +1,7 @@
 ﻿
 using EticaretApi.Application.Repositories;
+using EticaretApi.Application.RequestParameters;
+using EticaretApi.Application.Services;
 using EticaretApi.Application.ViewModels.Products;
 using EticaretApi.Domain.Entities;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +16,15 @@ namespace EticaretApi.Api.Controllers
     {
         readonly private IProductWriteRepository _productWriteRepository;
         readonly private IProductReadRepository _productReadRepository;
+        readonly private IWebHostEnvironment _webHostEnvironment;
+        readonly private IFileService fileService;
 
-        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository)
+        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileService fileService)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
+            _webHostEnvironment = webHostEnvironment;
+            this.fileService = fileService;
         }
 
         #region Örnek
@@ -56,16 +62,33 @@ namespace EticaretApi.Api.Controllers
         #region Servise Api sağlama
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] Pagination pagination) //[FromQuery] queryden gonderılen datayı yakaladık 
         {
-            var data = _productReadRepository.GetAll(false).ToList();
-            return Ok(data);
+            var totalcount = _productReadRepository.GetAll(false).Count();
+            var data = _productReadRepository.GetAll(false)
+            .Select(p => new
+            {
+                p.Id,//ıd yı sılme ıslemı yparsa dıye gonderıyorum 
+                p.Name,
+                p.Stock,
+                p.Price,
+                p.CreateDate,
+                p.UpdateDate
+            })
+            .Skip(pagination.Page * pagination.Size)
+            .Take(pagination.Size)
+            .ToList(); //Skip dedıgımız atla  Take=5 her sayfada 5 urun gosterılcek sayfa 0 ıken 5 ı sayfa 1 ıken ılk 5 ı atlar sonrakı 5 den 10 a kadar olanı geıtırı  
+            return Ok(new
+            {
+                totalcount,
+                data
+            });
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var data=_productReadRepository.GetByIdAsync(id, false);
+            var data = _productReadRepository.GetByIdAsync(id, false);
             data.Wait();
             var data1 = data.Result;
             return Ok(data1);
@@ -84,32 +107,75 @@ namespace EticaretApi.Api.Controllers
         {
             //if (ModelState.IsValid)
             //{
-                //buradakı  calısmaz cunku kendısının yapmıs oldugu default bır dogrulayıcı kontrol sıstemı var orda ılk kontrolu yapar gecebılrıse burayı mesgul eder etmezse drekt hata fırlatır o yapılanamda soyle eklenir
-                //builder.Services.AddControllers().AddFluentValidation(configration=>configration.RegisterValidatorsFromAssemblyContaining<CreateProductValidater>())
-    //.ConfigureApiBehaviorOptions(option => option.SuppressModelStateInvalidFilter = true);  bu yapılanma yazılırise ılk oto kontrol yapılmaz burası calısır burada manuel bı kotorl ıslemı yapar
+            //buradakı  calısmaz cunku kendısının yapmıs oldugu default bır dogrulayıcı kontrol sıstemı var orda ılk kontrolu yapar gecebılrıse burayı mesgul eder etmezse drekt hata fırlatır o yapılanamda soyle eklenir
+            //builder.Services.AddControllers().AddFluentValidation(configration=>configration.RegisterValidatorsFromAssemblyContaining<CreateProductValidater>())
+            //.ConfigureApiBehaviorOptions(option => option.SuppressModelStateInvalidFilter = true);  bu yapılanma yazılırise ılk oto kontrol yapılmaz burası calısır burada manuel bı kotorl ıslemı yapar
             //}
-            Product product=await _productReadRepository.GetByIdAsync(model.Id); // Id verıp tum nesneyı elde ettık 
+            Product product = await _productReadRepository.GetByIdAsync(model.Id); // Id verıp tum nesneyı elde ettık 
             product.Stock = model.Stock;
             product.Price = model.Price;
-            product.Name=model.Name;
+            product.Name = model.Name;
 
             await _productWriteRepository.SaveAsync();
 
             return Ok();
         }
 
+
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var data=await _productWriteRepository.RemoveAsync(id);
+            var data = await _productWriteRepository.RemoveAsync(id);
             if (data)
             {
                 await _productWriteRepository.SaveAsync();
                 return Ok(true);
             }
-            
+
             return Ok(false);
         }
+
+        #region Dosya ıslemını katmanlara ayırdık eskı ıslem acıklamalar ıcın kalıyor burada 
+        //[HttpPost("[Action]")] //Üste post var oldugu ıcın artık ısımı ıle cagrılmalı
+        //public async Task<IActionResult> Upload(List<IFormFile> files)
+        //{
+        //    string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "resource/product-images");
+        //    //_webHostEnvironment.WebRootPath wwwroot konumunu veırı sonra ıcerısınde resource/product-images adresını alır 
+        //    //Path.Combine() yöntemi, belirtilen dizin yollarını birleştirerek tek bir dize oluşturur.
+        //    if (!Directory.Exists(Path.GetDirectoryName(uploadPath))) //ıcındekı adreste bır dosya varmı dıye bakar yoksa olusturu ıcerıde 
+        //    {
+        //        Directory.CreateDirectory(Path.GetDirectoryName(uploadPath)); //bu dizini olustur dedik
+
+        //    }
+        //    foreach (var file in files)
+        //    {
+        //        Random r = new();
+        //        string fileName = Path.GetFileName(file.FileName); //belirtilen dosya yolu dizesinden dosya adını ve uzantısını ayıklar.
+        //        string fullPath = Path.Combine(uploadPath, $"{r.Next()}{fileName}"); //bırlestırıyoruz 
+
+
+        //        using FileStream fileStream = new(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
+        //        await file.CopyToAsync(fileStream);
+
+        //        await fileStream.FlushAsync(); //filetrımı bosaltmak lazım degılse verıelr karısır onu burada bosalttık 
+
+
+        //    }
+        //    return Ok();
+        //}
+
+
+        #endregion
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Upload(List<IFormFile> files)
+        {
+            await  fileService.UploadAsync("resource/product-images", files);
+
+            return null;
+        }
+
 
         #endregion
     }

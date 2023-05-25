@@ -1,4 +1,5 @@
 using EticaretApi.Application.Validaters._Product;
+using EticaretApi.Infrastructure;
 using EticaretApi.Infrastructure.Filters;
 using EticaretApi.Persistence;
 using FluentValidation.AspNetCore;
@@ -8,15 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 //kendý olusturdugumuz verýyý tetýklýyoz 
 builder.Services.AddPersistenceServices();
-
+builder.Services.AddInfrastructureService();
 //Crospolitikalarý
 //builder.Services.AddCors(options=>options.AddDefaultPolicy(policy=>policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())); //burada her yerden verý alýr kullanýlmaz bu 
 builder.Services.AddCors(options=>options.AddDefaultPolicy(policy=>policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod())); //sadece bu sýteden gelen verýlerý alýcaktýr 
 
 
-
-builder.Services.AddControllers(o=>o.Filters.Add<ValidationFilter>).AddFluentValidation(configration => configration.RegisterValidatorsFromAssemblyContaining<CreateProductValidater>())
-    .ConfigureApiBehaviorOptions(option => option.SuppressModelStateInvalidFilter = true);//fluent valýdater ý aktýflestýrdýk sadece product creat ýcýn degýl dýgerlerýnýde yazýnca ayný dýzýnde olduklarý ýcýn hepsýný ceker
+//Validation
+builder.Services.AddControllers().AddFluentValidation(c=>c.RegisterValidatorsFromAssemblyContaining<CreateProductValidater>());
+//builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>()).AddFluentValidation(configration => configration.RegisterValidatorsFromAssemblyContaining<CreateProductValidater>())
+  //  .ConfigureApiBehaviorOptions(option => option.SuppressModelStateInvalidFilter = true);//fluent valýdater ý aktýflestýrdýk sadece product creat ýcýn degýl dýgerlerýnýde yazýnca ayný dýzýnde olduklarý ýcýn hepsýný ceker
 //burada true yaptýgýmýz ýcýn filter olusturmamýz gerekýr býr servister filter o zmn Infrastructure de olusturcaz
 builder.Services.AddEndpointsApiExplorer();
 
@@ -34,6 +36,8 @@ if (app.Environment.IsDevelopment())
 
 //Uste yapmýs oldugumu cors polýtýkasýnýn mýdel waresýný ekledýk buraya 
 app.UseCors();
+//wwwroot ýcýn kullanýlýr 
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
@@ -68,6 +72,6 @@ app.Run();
             await next();   =>burasý bý sonraký fýltera bakar 
  */
 
-//sonra burasý bý servýs oldugu ýcýn eklemek lazým 
+//sonra burasý bý servýs oldugu ýcýn eklemek lazým builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>()) bunun eklenmesý gerek
 
 #endregion

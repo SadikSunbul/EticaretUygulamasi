@@ -24,14 +24,14 @@ namespace EticaretApi.Application.Validaters._Product
                 .NotNull()
                 .NotNull()
                     .WithMessage("Lütfen stock bilgisini boş geçmeyiniz.")
-                .Must(s=>s>=0)
+                .Must(s=>s>0)
                 .WithMessage("Stock bilgisi 0 ve 0 dan küçük olamaz.");
 
             RuleFor(p => p.Price)
                 .NotNull()
                 .NotNull()
                     .WithMessage("Lütfen fiyat bilgisini boş geçmeyiniz.")
-                .Must(s => s >= 0)
+                .Must(s => s > 0)
                 .WithMessage("Fiyat bilgisi 0 ve 0 dan küçük olamaz.");
         }
     }
