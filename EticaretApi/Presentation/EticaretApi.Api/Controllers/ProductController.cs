@@ -169,11 +169,11 @@ namespace EticaretApi.Api.Controllers
         #endregion
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload(List<IFormFile> files)
+        public async Task<IActionResult> Upload(IFormFile files)
         {
-            await  fileService.UploadAsync("resource/product-images", files);
+            var data =await  fileService.UploadAsync("resource/product-images",files);
 
-            return null;
+            return  Ok(data);
         }
 
 

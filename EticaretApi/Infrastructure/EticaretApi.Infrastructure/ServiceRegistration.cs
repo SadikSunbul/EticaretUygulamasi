@@ -13,7 +13,7 @@ namespace EticaretApi.Infrastructure
     {
         public static void AddInfrastructureService(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IFileService, FileService>(); //scop ekledık cunku bız tek bı request ıcın 1 tane new yeter
+            /*serviceCollection.AddScoped<IFileService, FileService>();*/ //scop ekledık cunku bız tek bı request ıcın 1 tane new yeter
         }
     }
 }

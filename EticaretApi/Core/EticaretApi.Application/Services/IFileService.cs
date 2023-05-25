@@ -9,8 +9,8 @@ namespace EticaretApi.Application.Services
 {
     public interface IFileService
     {
-        Task<List<(string filenme,string path)>> UploadAsync(string path, List<IFormFile> files);
-        Task<string> FileRenameAsync(string fileName);
+        Task<(string filenme,string path)> UploadAsync(string path, IFormFile files);
+        
         Task<bool> CopyFileAsync(string path, IFormFile file); 
     }
 }
