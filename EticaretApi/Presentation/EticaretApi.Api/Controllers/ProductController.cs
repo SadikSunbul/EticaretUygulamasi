@@ -174,8 +174,9 @@ namespace EticaretApi.Api.Controllers
         public async Task<IActionResult> Upload(IFormFile file)
         {
             var data =fileService.UploadAsync("resource/product-images", file);
-
-            return Ok();
+            data.Wait();
+            var data1 = data.Result;
+            return Ok(data1);
         }
     }
 }

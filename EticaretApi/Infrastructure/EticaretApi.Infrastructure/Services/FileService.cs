@@ -16,32 +16,33 @@ namespace EticaretApi.Infrastructure.Services
 {
     public class FileService : IFileService
     {
-        
+
 
         public async Task<(string filenme, string path)> UploadAsync(string path, IFormFile file)
         {
 
-            if (file == null || file.Length == 0)
-                return  ("","");
+            if (file == null || file.Length == 0) //bos ıse cık dedık 
+                return ("", "");
 
 
 
-            var ext = Path.GetExtension(file.FileName);
-            var filename = Guid.NewGuid().ToString() + ext;
-            var fullPath = Path.Combine("wwwroot", path, filename);
+            var ext = Path.GetExtension(file.FileName);//dosya yolunun uzantısını (örneğin, ".pdf" gibi) belirlemek için kullanılır
+            var filename = Guid.NewGuid().ToString() + ext; //uniq bı ısım olusturduk burada
+            var fullPath = Path.Combine("wwwroot", path, filename); //path lerı bırlestırdık 
 
-            if (!Directory.Exists(Path.GetDirectoryName(fullPath))) //ıcındekı adreste bır dosya varmı dıye bakar yoksa olusturu ıcerıde 
+            if (!Directory.Exists(Path.GetDirectoryName("wwwroot" + path))) //ıcındekı adreste bır dosya varmı dıye bakar yoksa olusturu ıcerıde 
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(fullPath)); //bu dizini olustur dedik
+                Directory.CreateDirectory(Path.GetDirectoryName("wwwroot" + path)); //bu dizini olustur dedik
 
             }
 
-            using (var stream = new FileStream(fullPath, FileMode.Create))
+            // Dosyanın bellekteki içeriğini FileStream nesnesine kopyala ve FileStream nesnesiyle dosyayı diskte oluştur.
+            using (var stream = new FileStream(fullPath, FileMode.Create))//belirtilen tam dosya yolunda bir FileStream nesnesi oluşturur. "fullPath" değişkeni, oluşturulacak dosyanın tam yolu ve dosya adını içerir. Bu kodda kullanılan FileMode.Create özelliği, var olan bir dosyayı ezer veya var olan bir dosya yoksa yeni bir dosya oluşturur. Yani, bu kod bloğu, belirtilen tam dosya yolunda bir dosya oluşturmak için kullanılabilir. Dosyaya yazılmak istenen veriler daha sonra bu FileStream nesnesi üzerinden aktarılabilir. Bu işlem tamamlandığında, FileStream nesnesi kapatılmalı ve kaynakların serbest bırakılması için Dispose() yöntemi çağrılmalıdır.
             {
-                await file.CopyToAsync(stream);
-                stream.Flush();
+                await file.CopyToAsync(stream); //kaydet
+                stream.Flush(); //bosalt
             }
-
+            // Kullanıcılara dosyanın erişim yolunu (URL) döndürür.
             var publicPath = Path.Combine("/", path, filename);
             return (filename, publicPath);
         }
