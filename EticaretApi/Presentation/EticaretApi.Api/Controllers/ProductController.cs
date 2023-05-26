@@ -19,13 +19,25 @@ namespace EticaretApi.Api.Controllers
         readonly private IProductReadRepository _productReadRepository;
         readonly private IWebHostEnvironment _webHostEnvironment;
         private readonly IFileService fileService;
+        private readonly IFileWriteRepository fileWriteRepository;
+        private readonly IFileReadRepository fileReadRepository;
+        private readonly IInvoiceFileReadRepository ınvoiceFileReadRepository;
+        private readonly IInvoiceFileWriteRepository ınvoiceFileWriteRepository;
+        private readonly IProductImageFileReadRepository productImageFileReadRepository;
+        private readonly IProductImageWriteRepository productImageWriteRepository;
 
-        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment,IFileService fileService)
+        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment,IFileService fileService,IFileWriteRepository fileWriteRepository,IFileReadRepository fileReadRepository ,IInvoiceFileReadRepository ınvoiceFileReadRepository,IInvoiceFileWriteRepository ınvoiceFileWriteRepository,IProductImageFileReadRepository productImageFileReadRepository,IProductImageWriteRepository productImageWriteRepository )
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
             _webHostEnvironment = webHostEnvironment;
             this.fileService = fileService;
+            this.fileWriteRepository = fileWriteRepository;
+            this.fileReadRepository = fileReadRepository;
+            this.ınvoiceFileReadRepository = ınvoiceFileReadRepository;
+            this.ınvoiceFileWriteRepository = ınvoiceFileWriteRepository;
+            this.productImageFileReadRepository = productImageFileReadRepository;
+            this.productImageWriteRepository = productImageWriteRepository;
         }
 
         #region Örnek
@@ -176,6 +188,12 @@ namespace EticaretApi.Api.Controllers
             var data =fileService.UploadAsync("resource/product-images", file);
             data.Wait();
             var data1 = data.Result;
+          await productImageWriteRepository.AddAsync(new()
+            {
+                FileName = data1.filenme,
+                Path=data1.path
+            });
+            await _productWriteRepository.SaveAsync();
             return Ok(data1);
         }
     }

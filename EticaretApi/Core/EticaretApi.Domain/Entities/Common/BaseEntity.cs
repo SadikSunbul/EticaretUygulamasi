@@ -10,7 +10,7 @@ namespace EticaretApi.Domain.Entities.Common
     {
         public Guid Id { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime UpdateDate { get; set; }
+        virtual public DateTime UpdateDate { get; set; } //ezıle bılır yaptık fıle ıslemlerınde guncelleme kısmını tutmıycagımız ıcın orada ezıcez bunu 
 
     }
 }

@@ -100,6 +100,36 @@ namespace EticaretApi.Persistence.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("EticaretApi.Domain.Entities._File.File", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("files");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("File");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("OrderProduct", b =>
                 {
                     b.Property<Guid>("OrdersId")
@@ -113,6 +143,23 @@ namespace EticaretApi.Persistence.Migrations
                     b.HasIndex("ProductsId");
 
                     b.ToTable("OrderProduct");
+                });
+
+            modelBuilder.Entity("EticaretApi.Domain.Entities._File.InvoiceFile", b =>
+                {
+                    b.HasBaseType("EticaretApi.Domain.Entities._File.File");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasDiscriminator().HasValue("InvoiceFile");
+                });
+
+            modelBuilder.Entity("EticaretApi.Domain.Entities._File.ProductImageFile", b =>
+                {
+                    b.HasBaseType("EticaretApi.Domain.Entities._File.File");
+
+                    b.HasDiscriminator().HasValue("ProductImageFile");
                 });
 
             modelBuilder.Entity("EticaretApi.Domain.Entities.Order", b =>

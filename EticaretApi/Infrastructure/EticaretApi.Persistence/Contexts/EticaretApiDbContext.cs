@@ -1,4 +1,5 @@
 ﻿using EticaretApi.Domain.Entities;
+using EticaretApi.Domain.Entities._File;
 using EticaretApi.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,6 +22,11 @@ namespace EticaretApi.Persistence.Contexts
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
 
+        #region TPH
+        public DbSet<Domain.Entities._File.File> files { get; set; }
+        public DbSet<InvoiceFile> InvoiceFiles { get; set; }
+        public DbSet<ProductImageFile> ProductImageFiles { get; set; }
+        #endregion
         //burası ne zamna tetıklenır bız nezaman savechangesAsync methodunu tetıklers ısek ozaman burası kayıttan once cecalısır ıslemler den sonrada en altta kaydeder
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)//soguda araya gırmemıze yarar //hangisini kullandıysak onu overıde etmelıyız
         {
