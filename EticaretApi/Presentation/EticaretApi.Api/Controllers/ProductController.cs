@@ -4,6 +4,7 @@ using EticaretApi.Application.RequestParameters;
 using EticaretApi.Application.Services;
 using EticaretApi.Application.ViewModels.Products;
 using EticaretApi.Domain.Entities;
+using EticaretApi.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -17,9 +18,9 @@ namespace EticaretApi.Api.Controllers
         readonly private IProductWriteRepository _productWriteRepository;
         readonly private IProductReadRepository _productReadRepository;
         readonly private IWebHostEnvironment _webHostEnvironment;
-        readonly private IFileService fileService;
+        private readonly IFileService fileService;
 
-        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileService fileService)
+        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment,IFileService fileService)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -168,15 +169,14 @@ namespace EticaretApi.Api.Controllers
 
         #endregion
 
+
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload(IFormFile files)
+        public async Task<IActionResult> Upload(IFormFile file)
         {
-            var data =await  fileService.UploadAsync("resource/product-images",files);
+            var data =fileService.UploadAsync("resource/product-images", file);
 
-            return  Ok(data);
+            return Ok();
         }
-
-
-        #endregion
     }
 }
+#endregion
