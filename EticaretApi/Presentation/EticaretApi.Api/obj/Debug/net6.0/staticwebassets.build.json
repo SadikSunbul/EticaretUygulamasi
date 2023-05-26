@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "RRkarOrjPRjhMne+voWUuD7NOWQXZ83PdYutTDnw3Q4=",
+  "Hash": "hq5A1y8loqwWwZOBKyJlHBZvfBBJxQIAz4qGcyGMwi4=",
   "Source": "EticaretApi.Api",
   "BasePath": "_content/EticaretApi.Api",
   "Mode": "Default",
@@ -15,5 +15,74 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\file.jpg",
+      "SourceId": "EticaretApi.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\",
+      "BasePath": "_content/EticaretApi.Api",
+      "RelativePath": "resource/files/file.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\resource\\files\\file.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\forms",
+      "SourceId": "EticaretApi.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\",
+      "BasePath": "_content/EticaretApi.Api",
+      "RelativePath": "resource/files/forms",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\resource\\files\\forms"
+    },
+    {
+      "Identity": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\Productdata",
+      "SourceId": "EticaretApi.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\",
+      "BasePath": "_content/EticaretApi.Api",
+      "RelativePath": "resource/files/Productdata",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\resource\\files\\Productdata"
+    },
+    {
+      "Identity": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\c96795ee-4520-44a8-b762-1aee56f3137c.png",
+      "SourceId": "EticaretApi.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\",
+      "BasePath": "_content/EticaretApi.Api",
+      "RelativePath": "resource/product-images/c96795ee-4520-44a8-b762-1aee56f3137c.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\resource\\product-images\\c96795ee-4520-44a8-b762-1aee56f3137c.png"
+    }
+  ]
 }

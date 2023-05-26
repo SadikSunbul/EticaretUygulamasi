@@ -1,9 +1,11 @@
 ﻿
+using EticaretApi.Application.Abstractions.Storage;
 using EticaretApi.Application.Repositories;
 using EticaretApi.Application.RequestParameters;
 using EticaretApi.Application.Services;
 using EticaretApi.Application.ViewModels.Products;
 using EticaretApi.Domain.Entities;
+using EticaretApi.Domain.Entities._File;
 using EticaretApi.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +17,9 @@ namespace EticaretApi.Api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        readonly private IProductWriteRepository _productWriteRepository;
-        readonly private IProductReadRepository _productReadRepository;
-        readonly private IWebHostEnvironment _webHostEnvironment;
+        private readonly IProductWriteRepository _productWriteRepository;
+        private readonly IProductReadRepository _productReadRepository;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IFileService fileService;
         private readonly IFileWriteRepository fileWriteRepository;
         private readonly IFileReadRepository fileReadRepository;
@@ -25,8 +27,9 @@ namespace EticaretApi.Api.Controllers
         private readonly IInvoiceFileWriteRepository ınvoiceFileWriteRepository;
         private readonly IProductImageFileReadRepository productImageFileReadRepository;
         private readonly IProductImageWriteRepository productImageWriteRepository;
+        private readonly IStorageService storageService;
 
-        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment,IFileService fileService,IFileWriteRepository fileWriteRepository,IFileReadRepository fileReadRepository ,IInvoiceFileReadRepository ınvoiceFileReadRepository,IInvoiceFileWriteRepository ınvoiceFileWriteRepository,IProductImageFileReadRepository productImageFileReadRepository,IProductImageWriteRepository productImageWriteRepository )
+        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment,IFileService fileService,IFileWriteRepository fileWriteRepository,IFileReadRepository fileReadRepository ,IInvoiceFileReadRepository ınvoiceFileReadRepository,IInvoiceFileWriteRepository ınvoiceFileWriteRepository,IProductImageFileReadRepository productImageFileReadRepository,IProductImageWriteRepository productImageWriteRepository ,IStorageService storageService)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -38,6 +41,7 @@ namespace EticaretApi.Api.Controllers
             this.ınvoiceFileWriteRepository = ınvoiceFileWriteRepository;
             this.productImageFileReadRepository = productImageFileReadRepository;
             this.productImageWriteRepository = productImageWriteRepository;
+            this.storageService = storageService;
         }
 
         #region Örnek
@@ -183,18 +187,22 @@ namespace EticaretApi.Api.Controllers
 
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload(IFormFile file)
+        public async Task<IActionResult> Upload()
         {
-            var data =fileService.UploadAsync("resource/product-images", file);
-            data.Wait();
-            var data1 = data.Result;
-          await productImageWriteRepository.AddAsync(new()
+            
+           var data=await storageService.UploadAsync("resource/files",Request.Form.Files);
+            //  var data =fileService.UploadAsync("resource/product-images", file);
+            //  data.Wait();
+            //  var data1 = data.Result;
+            await productImageWriteRepository.AddRangeAsync(data.Select(d => new ProductImageFile()
             {
-                FileName = data1.filenme,
-                Path=data1.path
-            });
+                FileName = d.fileName,
+                Path = d.pathOrContainerName,
+                Storage = storageService.StorageName
+            }).ToList());
             await _productWriteRepository.SaveAsync();
-            return Ok(data1);
+
+            return Ok(data);
         }
     }
 }

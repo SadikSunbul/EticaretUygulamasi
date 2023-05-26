@@ -10,4 +10,9 @@
     <ProjectReference Include="..\..\Core\EticaretApi.Application\EticaretApi.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Stogare\AWS\" />
+    <Folder Include="Services\Stogare\Azure\" />
+  </ItemGroup>
+
 </Project>

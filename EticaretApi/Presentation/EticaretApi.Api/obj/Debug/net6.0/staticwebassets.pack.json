@@ -1,40 +1,20 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\0e3ebda3-d143-4a5f-8251-33c6c002a14e.png",
-      "PackagePath": "staticwebassets\\resource\\product-images\\0e3ebda3-d143-4a5f-8251-33c6c002a14e.png"
+      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\Productdata",
+      "PackagePath": "staticwebassets\\resource\\files"
     },
     {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\1a635846-c551-440f-98a0-3de7cbf98acc.png",
-      "PackagePath": "staticwebassets\\resource\\product-images\\1a635846-c551-440f-98a0-3de7cbf98acc.png"
+      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\file.jpg",
+      "PackagePath": "staticwebassets\\resource\\files\\file.jpg"
     },
     {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\1ca83908-5684-420b-abcf-04467a7c782f.gif",
-      "PackagePath": "staticwebassets\\resource\\product-images\\1ca83908-5684-420b-abcf-04467a7c782f.gif"
+      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\forms",
+      "PackagePath": "staticwebassets\\resource\\files"
     },
     {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\22b37e12-f97a-4b8b-9233-14ec086aa65d.jpg",
-      "PackagePath": "staticwebassets\\resource\\product-images\\22b37e12-f97a-4b8b-9233-14ec086aa65d.jpg"
-    },
-    {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\40df74e4-fcbf-4c64-8efd-7926ff540082.png",
-      "PackagePath": "staticwebassets\\resource\\product-images\\40df74e4-fcbf-4c64-8efd-7926ff540082.png"
-    },
-    {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\43495942-b20a-49ab-a5c0-983752ddd47e.png",
-      "PackagePath": "staticwebassets\\resource\\product-images\\43495942-b20a-49ab-a5c0-983752ddd47e.png"
-    },
-    {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\7722319e-447c-496f-80a7-a8d53a8256e3.png",
-      "PackagePath": "staticwebassets\\resource\\product-images\\7722319e-447c-496f-80a7-a8d53a8256e3.png"
-    },
-    {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\782df829-0e63-4703-a35e-f89cc357ab23.png",
-      "PackagePath": "staticwebassets\\resource\\product-images\\782df829-0e63-4703-a35e-f89cc357ab23.png"
-    },
-    {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\a91d63b4-92eb-41b5-b063-66435b85bfa8.png",
-      "PackagePath": "staticwebassets\\resource\\product-images\\a91d63b4-92eb-41b5-b063-66435b85bfa8.png"
+      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\c96795ee-4520-44a8-b762-1aee56f3137c.png",
+      "PackagePath": "staticwebassets\\resource\\product-images\\c96795ee-4520-44a8-b762-1aee56f3137c.png"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.EticaretApi.Api.Microsoft.AspNetCore.StaticWebAssets.props",
