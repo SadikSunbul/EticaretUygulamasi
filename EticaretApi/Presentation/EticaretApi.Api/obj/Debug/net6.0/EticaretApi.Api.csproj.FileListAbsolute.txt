@@ -103,3 +103,6 @@ C:\Users\artredline\Desktop\EticaretUygulaması\EticaretApi\Presentation\Eticare
 C:\Users\artredline\Desktop\EticaretUygulaması\EticaretApi\Presentation\EticaretApi.Api\bin\Debug\net6.0\EticaretApi.Infrastructure.dll
 C:\Users\artredline\Desktop\EticaretUygulaması\EticaretApi\Presentation\EticaretApi.Api\bin\Debug\net6.0\EticaretApi.Infrastructure.pdb
 C:\Users\artredline\Desktop\EticaretUygulaması\EticaretApi\Presentation\EticaretApi.Api\bin\Debug\net6.0\EticaretApi.Api.staticwebassets.runtime.json
+C:\Users\artredline\Desktop\EticaretUygulaması\EticaretApi\Presentation\EticaretApi.Api\bin\Debug\net6.0\Azure.Storage.Blobs.dll
+C:\Users\artredline\Desktop\EticaretUygulaması\EticaretApi\Presentation\EticaretApi.Api\bin\Debug\net6.0\Azure.Storage.Common.dll
+C:\Users\artredline\Desktop\EticaretUygulaması\EticaretApi\Presentation\EticaretApi.Api\bin\Debug\net6.0\System.IO.Hashing.dll

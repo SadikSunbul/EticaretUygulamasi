@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "3fFmcvjf8nwXjZW31GxAWkJ0mocm5jmGiyqTslnb/B8sL+/s6aShLKg4sZjcnB60rrkWnBcerfSqJXC++uGLBg==",
+  "dgSpecHash": "VwTk0YlCM/yiMxJWYkQWuPBPivaUZzhZCpz/uKrNZKCpszBwRZnbNtZDv7TVP8RibbjDHQ2CT0jjUo/nhbsZ6Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\EticaretApi.Api.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\artredline\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
+    "C:\\Users\\artredline\\.nuget\\packages\\azure.core\\1.31.0\\azure.core.1.31.0.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
+    "C:\\Users\\artredline\\.nuget\\packages\\azure.storage.blobs\\12.16.0\\azure.storage.blobs.12.16.0.nupkg.sha512",
+    "C:\\Users\\artredline\\.nuget\\packages\\azure.storage.common\\12.15.0\\azure.storage.common.12.15.0.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\fluentvalidation\\11.5.2\\fluentvalidation.11.5.2.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.2\\fluentvalidation.dependencyinjectionextensions.11.5.2.nupkg.sha512",
@@ -65,6 +67,7 @@
     "C:\\Users\\artredline\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.21.0\\system.identitymodel.tokens.jwt.6.21.0.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\artredline\\.nuget\\packages\\system.io.hashing\\6.0.0\\system.io.hashing.6.0.0.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",

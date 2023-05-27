@@ -1,4 +1,5 @@
 ﻿
+using Azure.Storage.Sas;
 using EticaretApi.Application.Abstractions.Storage;
 using EticaretApi.Application.Repositories;
 using EticaretApi.Application.RequestParameters;
@@ -29,7 +30,7 @@ namespace EticaretApi.Api.Controllers
         private readonly IProductImageWriteRepository productImageWriteRepository;
         private readonly IStorageService storageService;
 
-        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment,IFileService fileService,IFileWriteRepository fileWriteRepository,IFileReadRepository fileReadRepository ,IInvoiceFileReadRepository ınvoiceFileReadRepository,IInvoiceFileWriteRepository ınvoiceFileWriteRepository,IProductImageFileReadRepository productImageFileReadRepository,IProductImageWriteRepository productImageWriteRepository ,IStorageService storageService)
+        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileService fileService, IFileWriteRepository fileWriteRepository, IFileReadRepository fileReadRepository, IInvoiceFileReadRepository ınvoiceFileReadRepository, IInvoiceFileWriteRepository ınvoiceFileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageWriteRepository productImageWriteRepository, IStorageService storageService)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -187,22 +188,44 @@ namespace EticaretApi.Api.Controllers
 
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload(string id)
         {
-            
-           var data=await storageService.UploadAsync("resource/files",Request.Form.Files);
-            //  var data =fileService.UploadAsync("resource/product-images", file);
-            //  data.Wait();
-            //  var data1 = data.Result;
-            await productImageWriteRepository.AddRangeAsync(data.Select(d => new ProductImageFile()
-            {
-                FileName = d.fileName,
-                Path = d.pathOrContainerName,
-                Storage = storageService.StorageName
-            }).ToList());
-            await _productWriteRepository.SaveAsync();
 
-            return Ok(data);
+            #region tEST
+            //var data=await storageService.UploadAsync("resource/files",Request.Form.Files);
+            // //  var data =fileService.UploadAsync("resource/product-images", file);
+            // //  data.Wait();
+            // //  var data1 = data.Result;
+            // await productImageWriteRepository.AddRangeAsync(data.Select(d => new ProductImageFile()
+            // {
+            //     FileName = d.fileName,
+            //     Path = d.pathOrContainerName,
+            //     Storage = storageService.StorageName
+            // }).ToList());
+            // await _productWriteRepository.SaveAsync();
+            #endregion
+            List<(string filename, string pathcontaınernaem)> result = await storageService.UploadAsync("photo-images", Request.Form.Files);
+            Product product = await _productReadRepository.GetByIdAsync(id);
+            //foreach (var r in result)
+            //{
+            //    product.ProductImageFiles.Add(new (){
+            //        FileName = r.filename,
+            //        Path = r.pathcontaınernaem,
+            //        Storage = storageService.StorageName,
+            //        Products = new List<Product>() { product }
+            //    });
+            //}
+            await productImageWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
+            {
+                FileName = r.filename,
+                Path = r.pathcontaınernaem,
+                Storage = storageService.StorageName,
+                Products = new List<Product>() { product }
+            }).ToList());
+
+            await productImageWriteRepository.SaveAsync();
+
+            return Ok();
         }
     }
 }

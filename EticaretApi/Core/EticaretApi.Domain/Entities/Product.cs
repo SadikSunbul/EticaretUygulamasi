@@ -1,4 +1,5 @@
-﻿using EticaretApi.Domain.Entities.Common;
+﻿using EticaretApi.Domain.Entities._File;
+using EticaretApi.Domain.Entities.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace EticaretApi.Domain.Entities
         public int Stock { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+        public ICollection<ProductImageFile> ProductImageFiles { get; set; }  //Resimleri tuttugumuz yere bagladık 
     }
 }

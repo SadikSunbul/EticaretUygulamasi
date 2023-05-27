@@ -2,6 +2,7 @@ using EticaretApi.Application.Validaters._Product;
 using EticaretApi.Infrastructure;
 using EticaretApi.Infrastructure.Enums;
 using EticaretApi.Infrastructure.Filters;
+using EticaretApi.Infrastructure.Services.Stogare.Azure;
 using EticaretApi.Infrastructure.Services.Stogare.Local;
 using EticaretApi.Persistence;
 using FluentValidation.AspNetCore;
@@ -25,9 +26,9 @@ builder.Services.AddControllers().AddFluentValidation(c=>c.RegisterValidatorsFro
 builder.Services.AddEndpointsApiExplorer();
 
 //File servis ekeleme
-builder.Services.AddStorage<LocalStorage>(); //Local olarak ýlerlýyecektýr burada aws dersek aws olarak ýlerýler
+//builder.Services.AddStorage<LocalStorage>(); //Local olarak ýlerlýyecektýr burada aws dersek aws olarak ýlerýler
 //builder.Services.AddStorage(StorageType.Local); //usteký ýle ayný 
-
+builder.Services.AddStorage<AzureStorage>(); //tek býr degýsýklýlýkle dosya kaydýný Azurestorage seklýnde yapmýs olduk 
 
 builder.Services.AddSwaggerGen();
 

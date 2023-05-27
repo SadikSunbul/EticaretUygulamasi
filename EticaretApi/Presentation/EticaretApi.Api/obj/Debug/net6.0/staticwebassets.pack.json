@@ -1,16 +1,8 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\Productdata",
-      "PackagePath": "staticwebassets\\resource\\files"
-    },
-    {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\file.jpg",
-      "PackagePath": "staticwebassets\\resource\\files\\file.jpg"
-    },
-    {
-      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\forms",
-      "PackagePath": "staticwebassets\\resource\\files"
+      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\Productdata.png",
+      "PackagePath": "staticwebassets\\resource\\files\\Productdata.png"
     },
     {
       "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\c96795ee-4520-44a8-b762-1aee56f3137c.png",

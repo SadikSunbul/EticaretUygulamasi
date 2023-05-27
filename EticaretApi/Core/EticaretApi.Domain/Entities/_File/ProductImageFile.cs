@@ -9,5 +9,6 @@ namespace EticaretApi.Domain.Entities._File
     public class ProductImageFile :File
     {
         //illa tutmak gerekmez 
+        public ICollection<Product> Products { get; set; }
     }
 }

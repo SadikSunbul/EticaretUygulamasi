@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EticaretApi.Infrastructure.Services.Stogare.Local
 {
-    public class LocalStorage : ILocalStorage
+    public class LocalStorage : Storage, ILocalStorage
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         public LocalStorage(IWebHostEnvironment webHostEnvironment)

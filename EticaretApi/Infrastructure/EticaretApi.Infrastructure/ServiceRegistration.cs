@@ -1,8 +1,10 @@
 ﻿using EticaretApi.Application.Abstractions.Storage;
+using EticaretApi.Application.Abstractions.Storage.Azure;
 using EticaretApi.Application.Services;
 using EticaretApi.Infrastructure.Enums;
 using EticaretApi.Infrastructure.Services;
 using EticaretApi.Infrastructure.Services.Stogare;
+using EticaretApi.Infrastructure.Services.Stogare.Azure;
 using EticaretApi.Infrastructure.Services.Stogare.Local;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -20,7 +22,8 @@ namespace EticaretApi.Infrastructure
             serviceCollection.AddScoped<IFileService, FileService>(); //scop ekledık cunku bız tek bı request ıcın 1 tane new yeter
             serviceCollection.AddScoped<IStorageService, StorageService>();
         }
-        public static void AddStorage<T>(this IServiceCollection serviceCollection)where T:class,IStorage
+        public static void AddStorage<T>(this IServiceCollection serviceCollection)where T:Storage,IStorage
+            //hem bunu IStorage ıplament edıcek hemde storage den turıycek 
 
         {
             serviceCollection.AddScoped<IStorage, T>();
@@ -34,6 +37,7 @@ namespace EticaretApi.Infrastructure
                     serviceCollection.AddScoped<IStorage,LocalStorage>();
                     break;
                 case StorageType.Azure:
+                    serviceCollection.AddScoped<IAzureStorage, AzureStorage>();
                     break;
                 case StorageType.AWS:
                     break;
