@@ -1,8 +1,11 @@
 ﻿
 using Azure.Storage.Sas;
 using EticaretApi.Application.Abstractions.Storage;
-using EticaretApi.Application.Features.Commends.CreateProduct;
-using EticaretApi.Application.Features.Queries.GetAllProduct;
+using EticaretApi.Application.Features.Commends._Product.CreateProduct;
+using EticaretApi.Application.Features.Commends._Product.DeleteProduct;
+using EticaretApi.Application.Features.Commends._Product.UpdateProduct;
+using EticaretApi.Application.Features.Queries._Product.GetAllProduct;
+using EticaretApi.Application.Features.Queries._Product.GetProductId;
 using EticaretApi.Application.Repositories;
 using EticaretApi.Application.RequestParameters;
 using EticaretApi.Application.Services;
@@ -23,35 +26,12 @@ namespace EticaretApi.Api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductWriteRepository _productWriteRepository;
-        private readonly IProductReadRepository _productReadRepository;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IFileService fileService;
-        private readonly IFileWriteRepository fileWriteRepository;
-        private readonly IFileReadRepository fileReadRepository;
-        private readonly IInvoiceFileReadRepository ınvoiceFileReadRepository;
-        private readonly IInvoiceFileWriteRepository ınvoiceFileWriteRepository;
-        private readonly IProductImageFileReadRepository productImageFileReadRepository;
-        private readonly IProductImageWriteRepository productImageWriteRepository;
-
-        private readonly IConfiguration configuration;
-
+        
         private readonly IMediator mediator;
 
-        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileService fileService, IFileWriteRepository fileWriteRepository, IFileReadRepository fileReadRepository, IInvoiceFileReadRepository ınvoiceFileReadRepository, IInvoiceFileWriteRepository ınvoiceFileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageWriteRepository productImageWriteRepository, IConfiguration configuration, IMediator mediator)
+        public ProductController( IMediator mediator)
         {
-            _productWriteRepository = productWriteRepository;
-            _productReadRepository = productReadRepository;
-            _webHostEnvironment = webHostEnvironment;
-            this.fileService = fileService;
-            this.fileWriteRepository = fileWriteRepository;
-            this.fileReadRepository = fileReadRepository;
-            this.ınvoiceFileReadRepository = ınvoiceFileReadRepository;
-            this.ınvoiceFileWriteRepository = ınvoiceFileWriteRepository;
-            this.productImageFileReadRepository = productImageFileReadRepository;
-            this.productImageWriteRepository = productImageWriteRepository;
-
-            this.configuration = configuration;
+            
             this.mediator = mediator;
         }
 
@@ -90,23 +70,21 @@ namespace EticaretApi.Api.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest) //[FromQuery] queryden gonderılen datayı yakaladık 
+        public async Task<IActionResult> GetAll([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest) //[FromQuery] queryden gonderılen datayı yakaladık 
         {
             GetAllProducQueryResponse response = await mediator.Send(getAllProductQueryRequest); //kendısı algılar handlerda ona gore sonucu olusturup degerı gonderırır 
             return Ok(response);
         }
 
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetId([FromQuery] GetProductIdQueryRequest getProductIdQueryRequest)
         {
-            var data = _productReadRepository.GetByIdAsync(id, false);
-            data.Wait();
-            var data1 = data.Result;
-            return Ok(data1);
+            var data=await mediator.Send(getProductIdQueryRequest);
+            return Ok(data);
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Post( CreateProductCommendRequest createProductCommendRequest) //normalde boyle entıtıy ıle karsılanmaz veri
         {
             var response=await mediator.Send(createProductCommendRequest);
@@ -114,8 +92,8 @@ namespace EticaretApi.Api.Controllers
             return StatusCode((int)HttpStatusCode.Created);//ekleme yapıldı kodu doncek 201 doner
         }
 
-        [HttpPut]
-        public async Task<ActionResult> Put(VM_Update_Product model) //guncelleme ıslemı yapılcak 
+        [HttpPut("[action]")]
+        public async Task<ActionResult> Put(UpdateProductCommendRequest updateProductCommendRequest) //guncelleme ıslemı yapılcak 
         {
             //if (ModelState.IsValid)
             //{
@@ -123,29 +101,18 @@ namespace EticaretApi.Api.Controllers
             //builder.Services.AddControllers().AddFluentValidation(configration=>configration.RegisterValidatorsFromAssemblyContaining<CreateProductValidater>())
             //.ConfigureApiBehaviorOptions(option => option.SuppressModelStateInvalidFilter = true);  bu yapılanma yazılırise ılk oto kontrol yapılmaz burası calısır burada manuel bı kotorl ıslemı yapar
             //}
-            Product product = await _productReadRepository.GetByIdAsync(model.Id); // Id verıp tum nesneyı elde ettık 
-            product.Stock = model.Stock;
-            product.Price = model.Price;
-            product.Name = model.Name;
+            var veri=await mediator.Send(updateProductCommendRequest);
 
-            await _productWriteRepository.SaveAsync();
-
-            return Ok();
+            return Ok(veri);
         }
 
 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> Delete(DeletProductCommendRequest deletProductCommendRequest)
         {
-            var data = await _productWriteRepository.RemoveAsync(id);
-            if (data)
-            {
-                await _productWriteRepository.SaveAsync();
-                return Ok(true);
-            }
-
-            return Ok(false);
+            var data=await mediator.Send(deletProductCommendRequest);
+            return Ok(data);
         }
 
 

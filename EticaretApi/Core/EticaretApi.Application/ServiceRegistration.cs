@@ -1,4 +1,4 @@
-﻿using EticaretApi.Application.Features.Queries.GetAllProduct;
+﻿using EticaretApi.Application.Features.Queries._Product.GetAllProduct;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
