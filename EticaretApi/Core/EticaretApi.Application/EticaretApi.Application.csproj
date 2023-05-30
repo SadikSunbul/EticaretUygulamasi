@@ -19,8 +19,4 @@
     <ProjectReference Include="..\EticaretApi.Domain\EticaretApi.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Commends\" />
-  </ItemGroup>
-
 </Project>

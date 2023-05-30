@@ -10,5 +10,8 @@ namespace EticaretApi.Application.Features.Commends.CreateProduct
     public class CreateProductCommendRequest:IRequest<CreateProductCommendResponse>
     {
         //parametreler
+        public string Name { get; set; }
+        public int Stock { get; set; }
+        public float Price { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using Azure.Storage.Sas;
 using EticaretApi.Application.Abstractions.Storage;
+using EticaretApi.Application.Features.Commends.CreateProduct;
 using EticaretApi.Application.Features.Queries.GetAllProduct;
 using EticaretApi.Application.Repositories;
 using EticaretApi.Application.RequestParameters;
@@ -106,10 +107,10 @@ namespace EticaretApi.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(VM_Create_Product model) //normalde boyle entıtıy ıle karsılanmaz veri
+        public async Task<IActionResult> Post( CreateProductCommendRequest createProductCommendRequest) //normalde boyle entıtıy ıle karsılanmaz veri
         {
-            await _productWriteRepository.AddAsync(model); //ekledik 
-            await _productWriteRepository.SaveAsync(); //Kaydettik
+            var response=await mediator.Send(createProductCommendRequest);
+
             return StatusCode((int)HttpStatusCode.Created);//ekleme yapıldı kodu doncek 201 doner
         }
 

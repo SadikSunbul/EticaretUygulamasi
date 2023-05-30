@@ -8,5 +8,6 @@ namespace EticaretApi.Application.Features.Commends.CreateProduct
 {
     public class CreateProductCommendResponse
     {
+
     }
 }
