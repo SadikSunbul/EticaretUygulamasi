@@ -1,6 +1,7 @@
 ﻿
 using Azure.Storage.Sas;
 using EticaretApi.Application.Abstractions.Storage;
+using EticaretApi.Application.Features.Queries.GetAllProduct;
 using EticaretApi.Application.Repositories;
 using EticaretApi.Application.RequestParameters;
 using EticaretApi.Application.Services;
@@ -8,12 +9,15 @@ using EticaretApi.Application.ViewModels.Products;
 using EticaretApi.Domain.Entities;
 using EticaretApi.Domain.Entities._File;
 using EticaretApi.Infrastructure.Services;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace EticaretApi.Api.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -28,9 +32,12 @@ namespace EticaretApi.Api.Controllers
         private readonly IInvoiceFileWriteRepository ınvoiceFileWriteRepository;
         private readonly IProductImageFileReadRepository productImageFileReadRepository;
         private readonly IProductImageWriteRepository productImageWriteRepository;
-        private readonly IStorageService storageService;
 
-        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileService fileService, IFileWriteRepository fileWriteRepository, IFileReadRepository fileReadRepository, IInvoiceFileReadRepository ınvoiceFileReadRepository, IInvoiceFileWriteRepository ınvoiceFileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageWriteRepository productImageWriteRepository, IStorageService storageService)
+        private readonly IConfiguration configuration;
+
+        private readonly IMediator mediator;
+
+        public ProductController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileService fileService, IFileWriteRepository fileWriteRepository, IFileReadRepository fileReadRepository, IInvoiceFileReadRepository ınvoiceFileReadRepository, IInvoiceFileWriteRepository ınvoiceFileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageWriteRepository productImageWriteRepository, IConfiguration configuration, IMediator mediator)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -42,10 +49,12 @@ namespace EticaretApi.Api.Controllers
             this.ınvoiceFileWriteRepository = ınvoiceFileWriteRepository;
             this.productImageFileReadRepository = productImageFileReadRepository;
             this.productImageWriteRepository = productImageWriteRepository;
-            this.storageService = storageService;
+
+            this.configuration = configuration;
+            this.mediator = mediator;
         }
 
-        #region Örnek
+
         /*
          [HttpGet] //bunu drekt bıldırmek gerek degılse swıger patlar
         public async Task Get()
@@ -76,32 +85,16 @@ namespace EticaretApi.Api.Controllers
         //    _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10 });/*,CreateDate=DateTime.Now burayı herzaman yazamayız bunu merkezılestırmek lazım */
         //}
 
-        #endregion
-        #region Servise Api sağlama
+
+
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] Pagination pagination) //[FromQuery] queryden gonderılen datayı yakaladık 
+        public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest) //[FromQuery] queryden gonderılen datayı yakaladık 
         {
-            var totalcount = _productReadRepository.GetAll(false).Count();
-            var data = _productReadRepository.GetAll(false)
-            .Select(p => new
-            {
-                p.Id,//ıd yı sılme ıslemı yparsa dıye gonderıyorum 
-                p.Name,
-                p.Stock,
-                p.Price,
-                p.CreateDate,
-                p.UpdateDate
-            })
-            .Skip(pagination.Page * pagination.Size)
-            .Take(pagination.Size)
-            .ToList(); //Skip dedıgımız atla  Take=5 her sayfada 5 urun gosterılcek sayfa 0 ıken 5 ı sayfa 1 ıken ılk 5 ı atlar sonrakı 5 den 10 a kadar olanı geıtırı  
-            return Ok(new
-            {
-                totalcount,
-                data
-            });
+            GetAllProducQueryResponse response = await mediator.Send(getAllProductQueryRequest); //kendısı algılar handlerda ona gore sonucu olusturup degerı gonderırır 
+            return Ok(response);
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
@@ -154,7 +147,7 @@ namespace EticaretApi.Api.Controllers
             return Ok(false);
         }
 
-        #region Dosya ıslemını katmanlara ayırdık eskı ıslem acıklamalar ıcın kalıyor burada 
+
         //[HttpPost("[Action]")] //Üste post var oldugu ıcın artık ısımı ıle cagrılmalı
         //public async Task<IActionResult> Upload(List<IFormFile> files)
         //{
@@ -184,12 +177,12 @@ namespace EticaretApi.Api.Controllers
         //}
 
 
-        #endregion
 
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Upload(string id)
-        {
+
+        //[HttpPost("[action]")]
+        //public async Task<IActionResult> Upload(string id)
+        //{
 
             #region tEST
             //var data=await storageService.UploadAsync("resource/files",Request.Form.Files);
@@ -204,29 +197,50 @@ namespace EticaretApi.Api.Controllers
             // }).ToList());
             // await _productWriteRepository.SaveAsync();
             #endregion
-            List<(string filename, string pathcontaınernaem)> result = await storageService.UploadAsync("photo-images", Request.Form.Files);
-            Product product = await _productReadRepository.GetByIdAsync(id);
-            //foreach (var r in result)
-            //{
-            //    product.ProductImageFiles.Add(new (){
-            //        FileName = r.filename,
-            //        Path = r.pathcontaınernaem,
-            //        Storage = storageService.StorageName,
-            //        Products = new List<Product>() { product }
-            //    });
-            //}
-            await productImageWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
-            {
-                FileName = r.filename,
-                Path = r.pathcontaınernaem,
-                Storage = storageService.StorageName,
-                Products = new List<Product>() { product }
-            }).ToList());
+        //    List<(string filename, string pathcontaınernaem)> result = await storageService.UploadAsync("photo-images", Request.Form.Files);
+        //    Product product = await _productReadRepository.GetByIdAsync(id);
+        //    //foreach (var r in result)
+        //    //{
+        //    //    product.ProductImageFiles.Add(new (){
+        //    //        FileName = r.filename,
+        //    //        Path = r.pathcontaınernaem,
+        //    //        Storage = storageService.StorageName,
+        //    //        Products = new List<Product>() { product }
+        //    //    });
+        //    //}
+        //    await productImageWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
+        //    {
+        //        FileName = r.filename,
+        //        Path = r.pathcontaınernaem,
+        //        Storage = storageService.StorageName,
+        //        Products = new List<Product>() { product }
+        //    }).ToList());
 
-            await productImageWriteRepository.SaveAsync();
+        //    await productImageWriteRepository.SaveAsync();
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
+
+        //[HttpGet("[action]/{id}")] //ıd yı rout dan alıcaz
+        //public async Task<IActionResult> GetProductImages(string id)
+        //{
+        //    Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+
+        //    return Ok(product.ProductImageFiles.Select(p => new
+        //    {
+        //        Path = $"{configuration["BaseStorageUrl"]}/{p.Path}", //verıyı alıcagı yerı ayarladık azure yerınden 
+        //        p.FileName
+        //    }));
+        //}
+        //[HttpDelete("[action]/{id}/{imageId}")]
+        //public async Task<IActionResult> DeleteproductImage(string id, string imageId)
+        //{
+        //    Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+        //    ProductImageFile productImage = product.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(imageId));
+        //    product.ProductImageFiles.Remove(productImage);
+        //    await _productWriteRepository.SaveAsync();
+        //    return Ok();
+        //}
+
     }
 }
-#endregion

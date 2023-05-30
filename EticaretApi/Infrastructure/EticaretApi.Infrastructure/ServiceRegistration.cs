@@ -20,7 +20,7 @@ namespace EticaretApi.Infrastructure
         public static void AddInfrastructureService(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IFileService, FileService>(); //scop ekledık cunku bız tek bı request ıcın 1 tane new yeter
-            serviceCollection.AddScoped<IStorageService, StorageService>();
+            //serviceCollection.AddScoped<IStorageService, StorageService>();
         }
         public static void AddStorage<T>(this IServiceCollection serviceCollection)where T:Storage,IStorage
             //hem bunu IStorage ıplament edıcek hemde storage den turıycek 

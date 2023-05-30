@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "EDglQknKmSWDliHwPQGXhcziZ1iJYsPntrMaXW6ZrYLM8OTfhUy8JfAN8TQjc2BcrLmBe3adsexJnTa1imL9dQ==",
+  "dgSpecHash": "wL7Xk/QjA5lndvyGZkCn5P/9rFaalv0k7Vzj5tU9J3iTbqH9viqoB1F/vcoIDX3twPONd3LIiTZ+y7HxnAG10Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Infrastructure\\EticaretApi.Infrastructure\\EticaretApi.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,8 @@
     "C:\\Users\\artredline\\.nuget\\packages\\fluentvalidation\\11.5.2\\fluentvalidation.11.5.2.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.2\\fluentvalidation.dependencyinjectionextensions.11.5.2.nupkg.sha512",
+    "C:\\Users\\artredline\\.nuget\\packages\\mediatr\\9.0.0\\mediatr.9.0.0.nupkg.sha512",
+    "C:\\Users\\artredline\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\9.0.0\\mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.5\\microsoft.entityframeworkcore.7.0.5.nupkg.sha512",
     "C:\\Users\\artredline\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.5\\microsoft.entityframeworkcore.abstractions.7.0.5.nupkg.sha512",
