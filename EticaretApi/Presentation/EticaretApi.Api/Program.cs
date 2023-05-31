@@ -32,8 +32,8 @@ builder.Services.AddControllers().AddFluentValidation(c=>c.RegisterValidatorsFro
 builder.Services.AddEndpointsApiExplorer();
 
 //File servis ekeleme
-builder.Services.AddStorage<LocalStorage>();
-/*builder.Services.AddStorage<LocalStorage>();*/ //Local olarak ýlerlýyecektýr burada aws dersek aws olarak ýlerýler
+//builder.services.addstorage<localstorage>();
+builder.Services.AddStorage<LocalStorage>(); //Local olarak ýlerlýyecektýr burada aws dersek aws olarak ýlerýler
 /*builder.Services.AddStorage(StorageType.Local);*///usteký ýle ayný 
 /*builder.Services.AddStorage<LocalStorage>();*/ //tek býr degýsýklýlýkle dosya kaydýný Azurestorage seklýnde yapmýs olduk 
 
