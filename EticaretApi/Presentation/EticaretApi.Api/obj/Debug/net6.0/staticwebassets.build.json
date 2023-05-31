@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ZaEpePMbSgFAZobAFC8Xi/DEU6CoK2WWdwQMJ7uVPts=",
+  "Hash": "TitcfPHY0CgvLwEqjjr6ZV/yfiWRO3W0c7+LrrtoKnQ=",
   "Source": "EticaretApi.Api",
   "BasePath": "_content/EticaretApi.Api",
   "Mode": "Default",
@@ -16,6 +16,40 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\photo-images\\files.jpg",
+      "SourceId": "EticaretApi.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\",
+      "BasePath": "_content/EticaretApi.Api",
+      "RelativePath": "photo-images/files.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\photo-images\\files.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\files.jpg",
+      "SourceId": "EticaretApi.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\",
+      "BasePath": "_content/EticaretApi.Api",
+      "RelativePath": "resource/files/files.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\resource\\files\\files.jpg"
+    },
     {
       "Identity": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\Productdata.png",
       "SourceId": "EticaretApi.Api",

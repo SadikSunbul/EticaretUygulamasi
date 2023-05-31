@@ -9,6 +9,7 @@ using EticaretApi.Application.Features.Commends.ProductImageFile.ProductImageUpl
 using EticaretApi.Application.Features.Commends.ProductImageFile.RemoveProduct;
 using EticaretApi.Application.Features.Queries._Product.GetAllProduct;
 using EticaretApi.Application.Features.Queries._Product.GetProductId;
+using EticaretApi.Application.Features.Queries.ProductImageFile.GetProductImage;
 using EticaretApi.Application.Repositories;
 using EticaretApi.Application.RequestParameters;
 using EticaretApi.Application.Services;
@@ -140,17 +141,12 @@ namespace EticaretApi.Api.Controllers
             return Ok(data);
         }
 
-        //[HttpGet("[action]/{id}")] //ıd yı rout dan alıcaz
-        //public async Task<IActionResult> GetProductImages(string id)
-        //{
-        //    Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
-
-        //    return Ok(product.ProductImageFiles.Select(p => new
-        //    {
-        //        Path = $"{configuration["BaseStorageUrl"]}/{p.Path}", //verıyı alıcagı yerı ayarladık azure yerınden 
-        //        p.FileName
-        //    }));
-        //}
+        [HttpGet("[action]/{Id}")] //ıd yı rout dan alıcaz
+        public async Task<IActionResult> GetProductImages([FromRoute] GetProductImageQueryRequest getProductImageQueryRequest)
+        {
+            var data = await mediator.Send(getProductImageQueryRequest);
+            return Ok(data);
+        }
 
         [HttpDelete("[action]/{Id}")]
         public async Task<IActionResult> DeleteproductImage([FromRoute] RemoveProductCommendRequest removeProductCommendRequest,[FromQuery] string imageId)

@@ -1,8 +1,16 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\photo-images\\files.jpg",
+      "PackagePath": "staticwebassets\\photo-images\\files.jpg"
+    },
+    {
       "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\Productdata.png",
       "PackagePath": "staticwebassets\\resource\\files\\Productdata.png"
+    },
+    {
+      "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\files\\files.jpg",
+      "PackagePath": "staticwebassets\\resource\\files\\files.jpg"
     },
     {
       "Id": "C:\\Users\\artredline\\Desktop\\EticaretUygulaması\\EticaretApi\\Presentation\\EticaretApi.Api\\wwwroot\\resource\\product-images\\1348400575Nedir-Bu-Onion-Architecture-1.png",
