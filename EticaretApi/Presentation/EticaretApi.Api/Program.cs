@@ -1,8 +1,10 @@
 using EticaretApi.Application;
+using EticaretApi.Application.Abstractions.Storage;
 using EticaretApi.Application.Validaters._Product;
 using EticaretApi.Infrastructure;
 using EticaretApi.Infrastructure.Enums;
 using EticaretApi.Infrastructure.Filters;
+using EticaretApi.Infrastructure.Services.Stogare;
 using EticaretApi.Infrastructure.Services.Stogare.Azure;
 using EticaretApi.Infrastructure.Services.Stogare.Local;
 using EticaretApi.Persistence;
@@ -13,8 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 //kendý olusturdugumuz verýyý tetýklýyoz 
 builder.Services.AddPersistenceServices();
-builder.Services.AddInfrastructureService();
+//builder.Services.AddScoped<IStorageService, StorageService>();
+//builder.Services.AddStorage<LocalStorage>();
 builder.Services.AddAplicationService();
+builder.Services.AddInfrastructureServices();
 //Crospolitikalarý
 //builder.Services.AddCors(options=>options.AddDefaultPolicy(policy=>policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())); //burada her yerden verý alýr kullanýlmaz bu 
 builder.Services.AddCors(options=>options.AddDefaultPolicy(policy=>policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod())); //sadece bu sýteden gelen verýlerý alýcaktýr 
@@ -28,9 +32,10 @@ builder.Services.AddControllers().AddFluentValidation(c=>c.RegisterValidatorsFro
 builder.Services.AddEndpointsApiExplorer();
 
 //File servis ekeleme
-//builder.Services.AddStorage<LocalStorage>(); //Local olarak ýlerlýyecektýr burada aws dersek aws olarak ýlerýler
-//builder.Services.AddStorage(StorageType.Local); //usteký ýle ayný 
-/*builder.Services.AddStorage<AzureStorage>(); *///tek býr degýsýklýlýkle dosya kaydýný Azurestorage seklýnde yapmýs olduk 
+builder.Services.AddStorage<LocalStorage>();
+/*builder.Services.AddStorage<LocalStorage>();*/ //Local olarak ýlerlýyecektýr burada aws dersek aws olarak ýlerýler
+/*builder.Services.AddStorage(StorageType.Local);*///usteký ýle ayný 
+/*builder.Services.AddStorage<LocalStorage>();*/ //tek býr degýsýklýlýkle dosya kaydýný Azurestorage seklýnde yapmýs olduk 
 
 builder.Services.AddSwaggerGen();
 

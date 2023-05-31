@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EticaretApi.Infrastructure.Services.Stogare
 {
-    public class StorageService : IStorageService
+    public class StorageService : Application.Abstractions.Storage.IStorageService
     {
         readonly IStorage _storage;
         public StorageService(IStorage storage)

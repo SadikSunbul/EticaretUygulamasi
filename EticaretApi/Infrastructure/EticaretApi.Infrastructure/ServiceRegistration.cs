@@ -1,5 +1,6 @@
 ﻿using EticaretApi.Application.Abstractions.Storage;
 using EticaretApi.Application.Abstractions.Storage.Azure;
+using EticaretApi.Application.Abstractions.Storage.Local;
 using EticaretApi.Application.Services;
 using EticaretApi.Infrastructure.Enums;
 using EticaretApi.Infrastructure.Services;
@@ -17,35 +18,32 @@ namespace EticaretApi.Infrastructure
 {
     public static class ServiceRegistration
     {
-        public static void AddInfrastructureService(this IServiceCollection serviceCollection)
+        public static void AddInfrastructureServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IFileService, FileService>(); //scop ekledık cunku bız tek bı request ıcın 1 tane new yeter
-            //serviceCollection.AddScoped<IStorageService, StorageService>();
+            serviceCollection.AddScoped<IStorageService, StorageService>();
+            
         }
-        public static void AddStorage<T>(this IServiceCollection serviceCollection)where T:Storage,IStorage
-            //hem bunu IStorage ıplament edıcek hemde storage den turıycek 
-
+        public static void AddStorage<T>(this IServiceCollection serviceCollection) where T : Storage, IStorage
         {
             serviceCollection.AddScoped<IStorage, T>();
         }
-        public static void AddStorage(this IServiceCollection serviceCollection, StorageType storageType) 
-
+        public static void AddStorage(this IServiceCollection serviceCollection, StorageType storageType)
         {
             switch (storageType)
             {
                 case StorageType.Local:
-                    serviceCollection.AddScoped<IStorage,LocalStorage>();
+                    serviceCollection.AddScoped<IStorage, LocalStorage>();
                     break;
                 case StorageType.Azure:
-                    serviceCollection.AddScoped<IAzureStorage, AzureStorage>();
+                    serviceCollection.AddScoped<IStorage, AzureStorage>();
                     break;
                 case StorageType.AWS:
+
                     break;
                 default:
                     serviceCollection.AddScoped<IStorage, LocalStorage>();
                     break;
             }
-            
         }
     }
 }

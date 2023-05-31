@@ -4,6 +4,9 @@ using EticaretApi.Application.Abstractions.Storage;
 using EticaretApi.Application.Features.Commends._Product.CreateProduct;
 using EticaretApi.Application.Features.Commends._Product.DeleteProduct;
 using EticaretApi.Application.Features.Commends._Product.UpdateProduct;
+using EticaretApi.Application.Features.Commends._Product.UploadFilesProduct;
+using EticaretApi.Application.Features.Commends.ProductImageFile.ProductImageUpload;
+using EticaretApi.Application.Features.Commends.ProductImageFile.RemoveProduct;
 using EticaretApi.Application.Features.Queries._Product.GetAllProduct;
 using EticaretApi.Application.Features.Queries._Product.GetProductId;
 using EticaretApi.Application.Repositories;
@@ -13,7 +16,10 @@ using EticaretApi.Application.ViewModels.Products;
 using EticaretApi.Domain.Entities;
 using EticaretApi.Domain.Entities._File;
 using EticaretApi.Infrastructure.Services;
+using EticaretApi.Infrastructure.Services.Stogare;
+using EticaretApi.Persistence.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,12 +32,9 @@ namespace EticaretApi.Api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        
         private readonly IMediator mediator;
-
-        public ProductController( IMediator mediator)
+        public ProductController(IMediator mediator)
         {
-            
             this.mediator = mediator;
         }
 
@@ -56,7 +59,8 @@ namespace EticaretApi.Api.Controllers
         public async Task<IActionResult> Get(string id)
         {
             Product product = await _productReadRepository.GetByIdAsync(id);
-            _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10 });/*,CreateDate=DateTime.Now burayı herzaman yazamayız bunu merkezılestırmek lazım *//*
+            _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10 });/*,CreateDate=DateTime.Now burayı herzaman yazamayız bunu merkezılestırmek lazım */
+        /*
             return Ok(product);
     }
 
@@ -64,7 +68,7 @@ namespace EticaretApi.Api.Controllers
         //public async Task Test()
         //{
         //    _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10 });/*,CreateDate=DateTime.Now burayı herzaman yazamayız bunu merkezılestırmek lazım */
-        //}
+        //}*/
 
 
 
@@ -77,17 +81,17 @@ namespace EticaretApi.Api.Controllers
         }
 
 
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetId([FromQuery] GetProductIdQueryRequest getProductIdQueryRequest)
+        [HttpGet("[action]/{ProductId}")]
+        public async Task<IActionResult> GetId([FromRoute] GetProductIdQueryRequest getProductIdQueryRequest)
         {
-            var data=await mediator.Send(getProductIdQueryRequest);
+            var data = await mediator.Send(getProductIdQueryRequest);
             return Ok(data);
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Post( CreateProductCommendRequest createProductCommendRequest) //normalde boyle entıtıy ıle karsılanmaz veri
+        public async Task<IActionResult> Post(CreateProductCommendRequest createProductCommendRequest) //normalde boyle entıtıy ıle karsılanmaz veri
         {
-            var response=await mediator.Send(createProductCommendRequest);
+            var response = await mediator.Send(createProductCommendRequest);
 
             return StatusCode((int)HttpStatusCode.Created);//ekleme yapıldı kodu doncek 201 doner
         }
@@ -101,7 +105,7 @@ namespace EticaretApi.Api.Controllers
             //builder.Services.AddControllers().AddFluentValidation(configration=>configration.RegisterValidatorsFromAssemblyContaining<CreateProductValidater>())
             //.ConfigureApiBehaviorOptions(option => option.SuppressModelStateInvalidFilter = true);  bu yapılanma yazılırise ılk oto kontrol yapılmaz burası calısır burada manuel bı kotorl ıslemı yapar
             //}
-            var veri=await mediator.Send(updateProductCommendRequest);
+            var veri = await mediator.Send(updateProductCommendRequest);
 
             return Ok(veri);
         }
@@ -111,83 +115,30 @@ namespace EticaretApi.Api.Controllers
         [HttpDelete("[action]")]
         public async Task<IActionResult> Delete(DeletProductCommendRequest deletProductCommendRequest)
         {
-            var data=await mediator.Send(deletProductCommendRequest);
+            var data = await mediator.Send(deletProductCommendRequest);
             return Ok(data);
         }
 
 
-        //[HttpPost("[Action]")] //Üste post var oldugu ıcın artık ısımı ıle cagrılmalı
-        //public async Task<IActionResult> Upload(List<IFormFile> files)
-        //{
-        //    string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "resource/product-images");
-        //    //_webHostEnvironment.WebRootPath wwwroot konumunu veırı sonra ıcerısınde resource/product-images adresını alır 
-        //    //Path.Combine() yöntemi, belirtilen dizin yollarını birleştirerek tek bir dize oluşturur.
-        //    if (!Directory.Exists(Path.GetDirectoryName(uploadPath))) //ıcındekı adreste bır dosya varmı dıye bakar yoksa olusturu ıcerıde 
-        //    {
-        //        Directory.CreateDirectory(Path.GetDirectoryName(uploadPath)); //bu dizini olustur dedik
-
-        //    }
-        //    foreach (var file in files)
-        //    {
-        //        Random r = new();
-        //        string fileName = Path.GetFileName(file.FileName); //belirtilen dosya yolu dizesinden dosya adını ve uzantısını ayıklar.
-        //        string fullPath = Path.Combine(uploadPath, $"{r.Next()}{fileName}"); //bırlestırıyoruz 
-
-
-        //        using FileStream fileStream = new(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
-        //        await file.CopyToAsync(fileStream);
-
-        //        await fileStream.FlushAsync(); //filetrımı bosaltmak lazım degılse verıelr karısır onu burada bosalttık 
-
-
-        //    }
-        //    return Ok();
-        //}
+        [HttpPost("[Action]")] //Üste post var oldugu ıcın artık ısımı ıle cagrılmalı
+        public async Task<IActionResult> Upload([FromQuery] UploadFilesProductCommendRequest uploadFilesProductCommendRequest)
+        {
+            var data = await mediator.Send(uploadFilesProductCommendRequest);
+            return Ok(data);
+        }
 
 
 
 
 
-        //[HttpPost("[action]")]
-        //public async Task<IActionResult> Upload(string id)
-        //{
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ProductImageUpload([FromQuery]ProductImageUploadProductCommendRequest productImageUploadProduct)
+        {
+           
+            var data = await mediator.Send(productImageUploadProduct);
 
-            #region tEST
-            //var data=await storageService.UploadAsync("resource/files",Request.Form.Files);
-            // //  var data =fileService.UploadAsync("resource/product-images", file);
-            // //  data.Wait();
-            // //  var data1 = data.Result;
-            // await productImageWriteRepository.AddRangeAsync(data.Select(d => new ProductImageFile()
-            // {
-            //     FileName = d.fileName,
-            //     Path = d.pathOrContainerName,
-            //     Storage = storageService.StorageName
-            // }).ToList());
-            // await _productWriteRepository.SaveAsync();
-            #endregion
-        //    List<(string filename, string pathcontaınernaem)> result = await storageService.UploadAsync("photo-images", Request.Form.Files);
-        //    Product product = await _productReadRepository.GetByIdAsync(id);
-        //    //foreach (var r in result)
-        //    //{
-        //    //    product.ProductImageFiles.Add(new (){
-        //    //        FileName = r.filename,
-        //    //        Path = r.pathcontaınernaem,
-        //    //        Storage = storageService.StorageName,
-        //    //        Products = new List<Product>() { product }
-        //    //    });
-        //    //}
-        //    await productImageWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
-        //    {
-        //        FileName = r.filename,
-        //        Path = r.pathcontaınernaem,
-        //        Storage = storageService.StorageName,
-        //        Products = new List<Product>() { product }
-        //    }).ToList());
-
-        //    await productImageWriteRepository.SaveAsync();
-
-        //    return Ok();
-        //}
+            return Ok(data);
+        }
 
         //[HttpGet("[action]/{id}")] //ıd yı rout dan alıcaz
         //public async Task<IActionResult> GetProductImages(string id)
@@ -200,15 +151,14 @@ namespace EticaretApi.Api.Controllers
         //        p.FileName
         //    }));
         //}
-        //[HttpDelete("[action]/{id}/{imageId}")]
-        //public async Task<IActionResult> DeleteproductImage(string id, string imageId)
-        //{
-        //    Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
-        //    ProductImageFile productImage = product.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(imageId));
-        //    product.ProductImageFiles.Remove(productImage);
-        //    await _productWriteRepository.SaveAsync();
-        //    return Ok();
-        //}
+
+        [HttpDelete("[action]/{Id}")]
+        public async Task<IActionResult> DeleteproductImage([FromRoute] RemoveProductCommendRequest removeProductCommendRequest,[FromQuery] string imageId)
+        {
+            removeProductCommendRequest.ImageId=imageId; //boylede yapıları ayırabılırrız
+            var data=await mediator.Send(removeProductCommendRequest);
+            return Ok(data);
+        }
 
     }
 }

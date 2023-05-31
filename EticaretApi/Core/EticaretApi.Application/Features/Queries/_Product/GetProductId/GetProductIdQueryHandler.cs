@@ -20,9 +20,14 @@ namespace EticaretApi.Application.Features.Queries._Product.GetProductId
         public async Task<GetProductIdQueryResponse> Handle(GetProductIdQueryRequest request, CancellationToken cancellationToken)
         {
             var data = await ProductReadRepository.GetByIdAsync(request.ProductId, false);
-            if (data!=null)
+            if (data != null)
             {
-                return new GetProductIdQueryResponse { product=data } ;
+                return new GetProductIdQueryResponse
+                {
+                    Name = data.Name,
+                    Price = data.Price,
+                    Stock = data.Stock
+                };
             }
             return new();
         }

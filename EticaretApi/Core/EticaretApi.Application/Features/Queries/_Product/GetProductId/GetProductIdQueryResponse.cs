@@ -9,6 +9,9 @@ namespace EticaretApi.Application.Features.Queries._Product.GetProductId
 {
     public class GetProductIdQueryResponse
     {
-        public Product product{ get; set; }
+        public string Name { get; set; }
+
+        public float Price { get; set; }
+        public int Stock { get; set; }
     }
 }
