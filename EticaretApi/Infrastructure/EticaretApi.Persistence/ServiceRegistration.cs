@@ -11,6 +11,7 @@ using EticaretApi.Application.Repositories;
 using EticaretApi.Persistence.Repositories._File;
 using EticaretApi.Persistence.Repositories._InvoiceFile;
 using EticaretApi.Persistence.Repositories._ProductImageFile;
+using EticaretApi.Domain.Entities._Identity;
 
 namespace EticaretApi.Persistence
 {
@@ -18,7 +19,17 @@ namespace EticaretApi.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services)
         {
-            services.AddDbContext<EticaretApiDbContext>(options => options.UseSqlServer(Configration.ConnectionString)); 
+            services.AddDbContext<EticaretApiDbContext>(options => options.UseSqlServer(Configration.ConnectionString));
+
+            services.AddIdentity<AppUser, AppRole>(options =>  {
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric=false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                
+            }).AddEntityFrameworkStores<EticaretApiDbContext>();//AddIdentity daır tum stores lerımı EticaretApiDbContext bunda yap demeıs olduk 
+
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>(); //ICustomerReadRepository ıstenınce CustomerReadRepository döner
             services.AddScoped<ICustomerWriteRepository,CustomerWriteRepository>();
             services.AddScoped<IProductReadRepository,ProductReadRepository>();
