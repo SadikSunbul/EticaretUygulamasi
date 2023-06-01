@@ -20,6 +20,7 @@ using EticaretApi.Infrastructure.Services;
 using EticaretApi.Infrastructure.Services.Stogare;
 using EticaretApi.Persistence.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@ namespace EticaretApi.Api.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes="Admin")] //bu controler altındakı ısteklerde yetkılımı yetkısızmı onu kontrol et dedık gelen jwt yı dogrular  Admın ozellestırdıgımız yerden gelrı program cs de hangı profıle uygun olucaksa onu ayarlıyoruz burada
     public class ProductController : ControllerBase
     {
         private readonly IMediator mediator;

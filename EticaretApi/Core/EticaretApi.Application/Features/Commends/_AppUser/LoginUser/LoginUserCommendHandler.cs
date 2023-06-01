@@ -1,4 +1,7 @@
-﻿using EticaretApi.Domain.Entities._Identity;
+﻿using EticaretApi.Application.Abstractions;
+using EticaretApi.Application.DTOS;
+using EticaretApi.Application.Exeptions;
+using EticaretApi.Domain.Entities._Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -13,16 +16,18 @@ namespace EticaretApi.Application.Features.Commends._AppUser.LoginUser
     {
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
+        private readonly ITokenHandler tokenHandler;
 
-        public LoginUserCommendHandler(UserManager<AppUser> userManager , SignInManager<AppUser> signInManager)
+        public LoginUserCommendHandler(UserManager<AppUser> userManager , SignInManager<AppUser> signInManager, ITokenHandler tokenHandler)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.tokenHandler = tokenHandler;
         }
 
         public async Task<LoginUserCommendResponse> Handle(LoginUserCommendRequest request, CancellationToken cancellationToken)
         {
-            var user = await userManager.FindByEmailAsync(request.UserNameOrMailk);
+            var user = await userManager.FindByNameAsync(request.UserNameOrMailk);
             if (user==null)
             {
                 user = await userManager.FindByEmailAsync(request.UserNameOrMailk);
@@ -37,8 +42,16 @@ namespace EticaretApi.Application.Features.Commends._AppUser.LoginUser
             if (result.Succeeded) //Authentication basarılı
             {
                 // .... Yetkılerı belırlememız gerekır
+                Token token =tokenHandler.CreateAccessToken(5); //5 dk bı token 
+                return new LoginUserSuccsessCommendResponse()
+                {
+                    Token = token
+                };
             }
-            return new();
+            //return new LoginUserErorsCommendResponse() {  //dogrusu alttakı fıkır versın dıye kalsın 
+            // Message="Kullanıcı adı veya sıfre hataıdır ... "
+            //};
+            throw new AuthenticationErrorException();
         }
     }
 }

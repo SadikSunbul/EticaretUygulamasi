@@ -9,7 +9,10 @@ using EticaretApi.Infrastructure.Services.Stogare.Azure;
 using EticaretApi.Infrastructure.Services.Stogare.Local;
 using EticaretApi.Persistence;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +42,28 @@ builder.Services.AddStorage<LocalStorage>(); //Local olarak ýlerlýyecektýr burad
 
 builder.Services.AddSwaggerGen();
 
+
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)//JwtBearerDefaults.AuthenticationScheme deafult sema 
+    .AddJwtBearer("Admin",options => //dogrulamanýn yapýldýgý yer
+    {
+        options.TokenValidationParameters = new()
+        {
+            ValidateAudience = true, //olustuurlacak token degerýný kýmleýrn hangý orjýnlerýn sýtelrýn kullanacagýný belýrtýgýmýz deger www.býlemmne.com
+            ValidateIssuer = true, //olusturulacak token degerýný kýmýn dagýttýný ýfade edecegýmýz alandýr  www.myapi.com
+            ValidateLifetime = true,  //Olusturulan token degerýnýn suresýný kontrol edecek olan dogrulamadýr 
+            ValidateIssuerSigningKey = true,  //Üretilecek token degerýnýn uygulamamýza aýt býr deger oldugunu ýfade eden sucýry key verýsýnýn dogrulanmasýdýr.
+            ValidAudience = builder.Configuration["Token:Audience"], //www.bilmemne.com
+            ValidIssuer = builder.Configuration["Token:Issuer"], //www.myapi.com"
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
+        };
+    }); //Hangý oturesýn servisi AddJwtBearer sectýk
+
+
+
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -54,6 +79,7 @@ app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication(); //burayý eklemeyý unutma 
 app.UseAuthorization();
 
 app.MapControllers();
