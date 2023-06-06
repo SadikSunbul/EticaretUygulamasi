@@ -20,7 +20,7 @@ namespace EticaretApi.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromQuery]CreateUserCommendRequest? createUserCommendRequest)
+        public async Task<IActionResult> CreateUser([FromQuery]CreateUserCommendRequest createUserCommendRequest)
         {
             var data = await Mediator.Send(createUserCommendRequest);
             return Ok(data);
